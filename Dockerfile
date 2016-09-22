@@ -16,7 +16,7 @@ ENV ADMIN_PASSWORD changeme!
 
 RUN mkdir /opt/seafile
 WORKDIR /opt/seafile
-RUN curl -L -O https://bitbucket.org/haiwen/seafile/downloads/seafile-server_4.1.2_x86-64.tar.gz
+RUN curl -L -O https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_6.0.4_x86-64.tar.gz
 RUN tar xzf seafile-server_*
 RUN mkdir installed
 RUN mv seafile-server_* installed
