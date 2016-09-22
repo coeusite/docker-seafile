@@ -43,11 +43,20 @@ cd /opt/seafile/seafile-server-*
 
 # After configuring Seafile, patch Seafile's CCNet configuration to point to our HTTPS site.
 sed -i -e "s/.*SERVICE_URL.*=.*/SERVICE_URL = https:\/\/$SEAFILE_DOMAIN_NAME:$SEAFILE_DOMAIN_PORT/g" \
-    /opt/seafile/ccnet/ccnet.conf
+    /opt/seafile/conf/ccnet.conf
 
 # Also patch Seahub's configuration to use HTTPS for all downloads + uploads.
 echo "FILE_SERVER_ROOT = 'https://$SEAFILE_DOMAIN_NAME:$SEAFILE_DOMAIN_PORT/seafhttp'" \
-    >> /opt/seafile/seahub_settings.py
+    >> /opt/seafile/conf/seahub_settings.py
+
+# Add WebDAV support
+cat << EOF > /opt/seafile/conf/seafdav.conf
+[WEBDAV]
+enabled = true
+port = 8080
+fastcgi = true
+share_name = /seafdav
+EOF
 
 ## @todo Add memcached support!
 
