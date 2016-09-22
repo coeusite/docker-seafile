@@ -41,7 +41,7 @@ ADD service-nginx.sh /etc/service/nginx/run
 ADD seafile-nginx.conf /etc/nginx/sites-available/seafile
 
 # Expose needed ports.
-EXPOSE 10001 12001 8000 8082
+EXPOSE 8080
 
 RUN mkdir /opt/seafile/logs
 
