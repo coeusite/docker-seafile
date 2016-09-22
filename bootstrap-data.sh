@@ -53,7 +53,7 @@ echo "FILE_SERVER_ROOT = 'https://$SEAFILE_DOMAIN_NAME:$SEAFILE_DOMAIN_PORT/seaf
 cat << EOF > /opt/seafile/conf/seafdav.conf
 [WEBDAV]
 enabled = true
-port = 8080
+port = 8088
 fastcgi = true
 share_name = /seafdav
 EOF
