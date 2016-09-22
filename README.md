@@ -35,7 +35,7 @@ your installation.
 Create the MySQL database container by running:
 
 ```bash
-    docker run -d -p 127.0.0.1:3306:3306 -e MYSQL_ROOT_PASSWORD=<password> -e MYSQL_DATABASE=seafile -e MYSQL_USER=seafile -e MYSQL_PASSWORD=<password> --name seafile-db mariadb:latest
+docker run -d -p 127.0.0.1:3306:3306 -e MYSQL_ROOT_PASSWORD=<password> -e MYSQL_DATABASE=seafile -e MYSQL_USER=seafile -e MYSQL_PASSWORD=<password> --name seafile-db mariadb:latest
 ```
 This will create the needed container, based on [mariadb](https://hub.docker.com/r/_/mariadb/). This also assumes that you're
 not yet running another database at port 3306 on your host. In case you do, e.g. use
@@ -55,7 +55,7 @@ Note: IPv6 support is **not** implemented in this Dockerfile yet!
 Now, create the actual Seafile volume (for storing the actual data), using:
 
 ```bash
-    docker run -it --dns=127.0.0.1 --link seafile-db:db -e SEAFILE_DOMAIN_NAME=<yourdomain.tld> --name seafile-data coeusite/docker-seafile:latest  bootstrap
+docker run -it --dns=127.0.0.1 --link seafile-db:db -e SEAFILE_DOMAIN_NAME=<yourdomain.tld> --name seafile-data coeusite/docker-seafile:latest  bootstrap
 ```
 
 **Note:** The <yourdomain.tld> should either point to a IP or valid domain you want to run Seafile on. If you're running Docker on
@@ -89,13 +89,13 @@ Hint: Enter the IP of your **seafile-db** container, e.g. 172.17.0.2. Remember t
 Almost done! Now actually run Seafile using the database and the volume with:
 
 ```bash
-    docker run -d -t --dns=127.0.0.1 -p 8080:8080 --volumes-from seafile-data --link seafile-db:db -e SEAFILE_DOMAIN_NAME=<yourdomain.tld> --name seafile coeusite/docker-seafile
+docker run -d -t --dns=127.0.0.1 -p 8080:8080 --volumes-from seafile-data --link seafile-db:db -e SEAFILE_DOMAIN_NAME=<yourdomain.tld> --name seafile coeusite/docker-seafile
 ```
 
 Remember to configure your firewall properly, e.g. for firewalld:
 
 ```bash
-  firewall-cmd --add-port=8080/tcp --permanent && firewall-cmd --reload
+firewall-cmd --add-port=8080/tcp --permanent && firewall-cmd --reload
 ```
 
 Seafile should now be running on your host at
@@ -105,3 +105,14 @@ https://<yourhost>:8080
 ```
 
 Congrats, you're now running Seafile using your self-signed certificate!
+
+## Custom Certificate
+You can specify a custom certificate instead of using a self-signed one by following steps:
+* Move or copy your cert and key into a folder, e.g. /opt/lets-encrypt;
+* Rename them as seafile.crt and seafile.key respectively;
+* If you are using lets-encrypt, be aware that the lets-encrypt crt should be chained!
+* Mount them by adding ```-v /opt/lets-encrypt:/etc/nginx/certs:ro```, e.g.
+
+```bash
+docker run -d -t --dns=127.0.0.1 -p 8080:8080 --volumes-from seafile-data --link seafile-db:db -v /opt/lets-encrypt:/etc/nginx/certs:ro -e SEAFILE_DOMAIN_NAME=<yourdomain.tld> --name seafile coeusite/docker-seafile
+```
