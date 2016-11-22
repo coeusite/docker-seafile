@@ -16,6 +16,7 @@ The image contains/adds the following:
 
 ## Changelog
 
+- 2016/11/22: Update Seafile Server to version 6.0.6.
 - 2016/09/22: Added initial support for Seafile 6.0.4 and using the official MariaDB Docker image. Stay tuned for updates.
 - 2015/04/18: Added initial support for Seafile 4.x and using the official mysql Docker image. Stay tuned for updates.
 
