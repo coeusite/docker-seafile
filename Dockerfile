@@ -5,7 +5,7 @@ MAINTAINER Andreas Löffler <andy@x86dev.com>
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y ca-certificates \
-                       nginx \
+                       nginx net-tools wget \
                        python2.7 python-flup python-imaging python-mysqldb python-setuptools \
                        sqlite3 dnsmasq
 
@@ -16,7 +16,7 @@ ENV ADMIN_PASSWORD changeme!
 
 RUN mkdir /opt/seafile
 WORKDIR /opt/seafile
-RUN curl -L -O https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_6.0.6_x86-64.tar.gz
+RUN curl -L -O https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_6.0.7_x86-64.tar.gz
 RUN tar xzf seafile-server_*
 RUN mkdir installed
 RUN mv seafile-server_* installed
