@@ -1,55 +1,38 @@
-FROM phusion/baseimage
+FROM debian:jessie
 # Initially was based on work of Alessandro Viganò
-MAINTAINER Andreas Löffler <andy@x86dev.com>
+MAINTAINER CoeusITE <coeusite@gmail.com>
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
-    apt-get install -y ca-certificates \
-                       nginx net-tools wget \
-                       python2.7 python-flup python-imaging python-mysqldb python-setuptools \
-                       sqlite3 dnsmasq
+    apt-get update && apt-get upgrade -y && \
+    apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils && \
+    apt-get install -y python2.7 python-setuptools python-imaging python-ldap python-mysqldb python-memcache python-urllib3 && \
+    apt-get clean all && \
+    sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
 
-ENV SERVER_NAME example
-ENV SERVER_ADDR seafile.example.com
-ENV ADMIN_EMAIL admin@example.com
-ENV ADMIN_PASSWORD changeme!
+RUN mkdir /opt/seafile/logs -p && \
+    cd /opt/seafile/ && \
+    wget https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_6.0.7_x86-64.tar.gz && \
+    tar xzf seafile-server_* && \
+    mkdir installed && \
+    mv seafile-server_* installed
 
-RUN mkdir /opt/seafile
-WORKDIR /opt/seafile
-RUN curl -L -O https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_6.0.7_x86-64.tar.gz
-RUN tar xzf seafile-server_*
-RUN mkdir installed
-RUN mv seafile-server_* installed
+# Env
+ENV SERVER_NAME=SeaDrive SERVER_ADDR=127.0.0.1 ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD=changeme!
 
-# Install DnsMasq service.
-RUN mkdir /etc/service/dnsmasq
-ADD service-dnsmasq.sh /etc/service/dnsmasq/run
-
-# Install Seafile service.
-RUN mkdir /etc/service/seafile
-ADD service-seafile-run.sh /etc/service/seafile/run
-ADD service-seafile-stop.sh /etc/service/seafile/stop
-
-# Install Seahub service.
-RUN mkdir /etc/service/seahub
-ADD service-seahub-run.sh /etc/service/seahub/run
-ADD service-seahub-stop.sh /etc/service/seahub/stop
-
-# Install Nginx.
-RUN mkdir /etc/service/nginx
-ADD service-nginx.sh /etc/service/nginx/run
+# Nginx
 ADD seafile-nginx.conf /etc/nginx/sites-available/seafile
+# Supervisor
+ADD seafile-supervisord.conf /etc/supervisor/conf.d/seafile-supervisord.conf
+# bootstrap
+ADD bootstrap-data.sh /usr/local/sbin/bootstrap
 
 # Expose needed ports.
 EXPOSE 8080
 
-RUN mkdir /opt/seafile/logs
+# Volumes
+VOLUME ["/etc/nginx", "/opt/seafile", "/etc/supervisor/conf.d"]
 
-VOLUME /etc
-VOLUME /opt/seafile
-VOLUME /etc/service/seafile
-VOLUME /etc/service/seahub
+# CMD
+CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
-ADD bootstrap-data.sh /usr/local/sbin/bootstrap
-CMD /sbin/my_init
-
+# docker build -t docker-seafile:jessie .
