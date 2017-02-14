@@ -1,5 +1,6 @@
 FROM debian:jessie
-# Initially was based on work of Alessandro Viganò
+
+# Initially was based on work of Alessandro Viganò, Andreas Löffler <andy@x86dev.com>
 MAINTAINER CoeusITE <coeusite@gmail.com>
 
 RUN export DEBIAN_FRONTEND=noninteractive && \

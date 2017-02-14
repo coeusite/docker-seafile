@@ -5,6 +5,8 @@ This Dockerfile installs latest [Seafile](https://www.seafile.com) with HTTPS (T
 
 Idea and initial Dockerfile was based on https://github.com/alvistar/seafile-docker
 
+**Note:** If you want to use a stable version, use coeusite/docker-seafile:phusion instead.
+
 ## Features
 
 The image contains/adds the following:
