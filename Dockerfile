@@ -1,30 +1,43 @@
 FROM debian:jessie
-# Initially was based on work of Alessandro Viganò
+
+# Initially was based on work of Alessandro Viganò, Andreas Löffler <andy@x86dev.com> and xama <oliver@xama.us>
 MAINTAINER CoeusITE <coeusite@gmail.com>
 
+# Base system
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils && \
-    apt-get install -y python2.7 python-setuptools python-imaging python-ldap python-mysqldb python-memcache python-urllib3 && \
+    apt-get install -y \
+        openjdk-7-jre poppler-utils libpython2.7 python-pip \
+        python-setuptools python-imaging python-mysqldb \
+        python-memcache python-ldap python-urllib3 \
+        libreoffice libreoffice-script-provider-python \
+        fonts-vlgothic ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy \
+        python-requests python-boto && \
     apt-get clean all && \
     sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
 
+# Required packages for pro edition
+# sqlite3
+
+# ENV
+ENV SEAFILE_VERSION 6.0.7
+
+# Seafile
 RUN mkdir /opt/seafile/logs -p && \
     cd /opt/seafile/ && \
-    wget https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_6.0.7_x86-64.tar.gz && \
-    tar xzf seafile-server_* && \
+    wget "https://download.seafile.com/d/06d4ca0272/files/?p=/seafile-pro-server_${SEAFILE_VERSION}_x86-64.tar.gz&dl=1" -O "seafile-pro-server_${SEAFILE_VERSION}_x86-64.tar.gz" && \
+    tar xzf seafile-pro-server_* && \
     mkdir installed && \
-    mv seafile-server_* installed
-
-# Env
-ENV SERVER_NAME=SeaDrive SERVER_ADDR=127.0.0.1 ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD=changeme!
-
+    mv seafile-pro-server_* installed
+    
 # Nginx
-ADD seafile-nginx.conf /etc/nginx/sites-available/seafile
+ADD config/seafile-nginx.conf /etc/nginx/sites-available/seafile
 # Supervisor
-ADD seafile-supervisord.conf /etc/supervisor/conf.d/seafile-supervisord.conf
+ADD config/seafile-supervisord.conf /etc/supervisor/conf.d/seafile-supervisord.conf
 # bootstrap
-ADD bootstrap-data.sh /usr/local/sbin/bootstrap
+ADD script/bootstrap-data.sh /usr/local/sbin/bootstrap
+
 
 # Expose needed ports.
 EXPOSE 8080

@@ -3,6 +3,14 @@
 # Note: Don't set "-u" here; we might check for unset environment variables!
 set -e
 
+# Use some sensible defaults.
+if [ -z "$SEAFILE_DOMAIN_NAME" ]; then
+    SEAFILE_DOMAIN_NAME=127.0.0.1
+fi
+if [ -z "$SEAFILE_DOMAIN_PORT" ]; then
+    SEAFILE_DOMAIN_PORT=8080
+fi
+
 # Generate the TLS certificate for our Seafile server instance.
 SEAFILE_CERT_PATH=/etc/nginx/certs
 mkdir -p "$SEAFILE_CERT_PATH"
@@ -12,14 +20,6 @@ openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
     -out "$SEAFILE_CERT_PATH/seafile.crt"
 chmod 600 "$SEAFILE_CERT_PATH/seafile.key"
 chmod 600 "$SEAFILE_CERT_PATH/seafile.crt"
-
-# Use some sensible defaults.
-if [ -z "$SEAFILE_DOMAIN_NAME" ]; then
-    SEAFILE_DOMAIN_NAME=127.0.0.1
-fi
-if [ -z "$SEAFILE_DOMAIN_PORT" ]; then
-    SEAFILE_DOMAIN_PORT=8080
-fi
 
 # Enable Seafile in the Nginx configuration. Nginx then will serve Seafile
 # over HTTPS (TLS).
@@ -35,10 +35,10 @@ sed -i -e "s/.*server_tokens.*/server_tokens off;/g" /etc/nginx/nginx.conf
 # for whatever reason to not letting it abort.
 ## @todo Fix this!
 sed -i -e "s/.*daemon.*=.*/daemon = False/g" \
-    /opt/seafile/seafile-server-*/runtime/seahub.conf
+    /opt/seafile/seafile-pro-server-*/runtime/seahub.conf
 
 # Execute Seafile's configuration script for setting up the MySQL database.
-cd /opt/seafile/seafile-server-*
+cd /opt/seafile/seafile-pro-server-*
 ./setup-seafile-mysql.sh
 
 # After configuring Seafile, patch Seafile's CCNet configuration to point to our HTTPS site.
@@ -65,6 +65,6 @@ EOF
 ./seahub.sh start-fastcgi
 
 # Shut down every again.
-cd /opt/seafile/seafile-server-*
+cd /opt/seafile/seafile-pro-server-*
 ./seahub.sh stop
 ./seafile.sh stop
