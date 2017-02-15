@@ -39,7 +39,7 @@ your installation.
 Create a custom bridge network
 
 ```bash
-docker network create --subnet=172.172.39.0/24 nginx-proxy
+docker network create --subnet=172.31.39.0/24 nginx-proxy
 ```
 
 Create the MariaDB(()MySQL) database container by running:
@@ -48,7 +48,7 @@ Create the MariaDB(()MySQL) database container by running:
 docker volume create --name seafile-dbstore
 
 docker run -d -p 127.0.0.1:3306:3306 \
-  --network nginx-proxy --ip 172.172.39.98 \
+  --network nginx-proxy --ip 172.31.39.98 \
   -v seafile-dbstore:/var/lib/mysql:rw \
   -e MYSQL_ROOT_PASSWORD=<password> \
   -e MYSQL_DATABASE=seafile \
@@ -69,7 +69,7 @@ As we need the IP of your database container later, look it up by doing a:
 docker inspect "seafile-db" | grep IPAddress | cut -d '"' -f 4
 ```
 
-It should be _172.172.39.98_ if you are following instructions above.
+It should be _172.31.39.98_ if you are following instructions above.
 
 Note: IPv6 support is **not** implemented in this Dockerfile yet!
 
@@ -77,7 +77,7 @@ Now, create the actual Seafile volume (for storing the actual data), using:
 
 ```bash
 docker run -it --dns=127.0.0.1 \
-  --network nginx-proxy --ip 172.172.39.99 \
+  --network nginx-proxy --ip 172.31.39.99 \
   -e SEAFILE_DOMAIN_NAME=<YOUR.HOST.NAME> \
   --name seafile-data coeusite/docker-seafile:latest  bootstrap
 ```
@@ -106,7 +106,7 @@ domain of your server you're running Docker on.
 ```
 "What is the host of mysql server?"
 ```
-Hint: Enter the IP of your **seafile-db** container, e.g. 172.172.39.98. Remember the step from above?
+Hint: Enter the IP of your **seafile-db** container, e.g. 172.31.39.98. Remember the step from above?
 
 **Important:** For all other questions just accept the defaults by pressing _[ENTER]_.
 
@@ -114,7 +114,7 @@ Almost done! Now actually run Seafile using the database and the volume with:
 
 ```bash
 docker run -d -t --dns=127.0.0.1 -p 127.0.0.1:8080:8080 \
-            --network nginx-proxy --ip 172.172.39.99 \
+            --network nginx-proxy --ip 172.31.39.99 \
             --volumes-from seafile-data \
             -e SEAFILE_DOMAIN_NAME=<YOUR.HOST.NAME> \
             --name seafile coeusite/docker-seafile
@@ -143,12 +143,16 @@ You can specify a custom certificate instead of using a self-signed one by follo
 
 ```bash
 docker run -d -t --dns=127.0.0.1 -p 127.0.0.1:8080:8080 \
-            --network nginx-proxy --ip 172.172.39.99 \
+            --network nginx-proxy --ip 172.31.39.99 \
             --volumes-from seafile-data \
             -v /opt/lets-encrypt:/etc/nginx/certs:ro \
             -e SEAFILE_DOMAIN_NAME=<YOUR.HOST.NAME> \
             --name seafile coeusite/docker-seafile
 ```
+
+## Docker Compose
+Because Seafile requires an initialization process (bootstrap),
+I do think using compose is not a good idea.
 
 ## Cooperation with [jrcs/letsencrypt-nginx-proxy-companion](https://github.com/jrcs/letsencrypt-nginx-proxy-companion)
 

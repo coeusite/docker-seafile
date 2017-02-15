@@ -3,6 +3,7 @@ FROM debian:jessie
 # Initially was based on work of Alessandro Viganò, Andreas Löffler <andy@x86dev.com>
 MAINTAINER CoeusITE <coeusite@gmail.com>
 
+# Base system
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils && \
@@ -10,15 +11,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get clean all && \
     sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
 
+# Seafile
 RUN mkdir /opt/seafile/logs -p && \
     cd /opt/seafile/ && \
     wget https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_6.0.7_x86-64.tar.gz && \
     tar xzf seafile-server_* && \
     mkdir installed && \
     mv seafile-server_* installed
-
-# Env
-ENV SERVER_NAME=SeaDrive SERVER_ADDR=127.0.0.1 ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD=changeme!
 
 # Nginx
 ADD seafile-nginx.conf /etc/nginx/sites-available/seafile
