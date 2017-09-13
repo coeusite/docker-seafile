@@ -15,7 +15,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 RUN mkdir /opt/seafile/logs -p && \
     cd /opt/seafile/ && \
     wget https://download.seadrive.org/seafile-server_6.1.2_x86-64.tar.gz && \
-    tar xzf seafile-server_* && \
+    tar xzf seafile-server_*.tar.gz && \
     mkdir installed && \
     mv seafile-server_* installed
 

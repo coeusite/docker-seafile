@@ -83,6 +83,12 @@ docker run -it --dns=127.0.0.1 \
   --name seafile-data coeusite/docker-seafile:latest  bootstrap
 ```
 
+**Note:** If you wanna upgrade your container, login to you container by
+```bash
+docker exec -it seafile /bin/bash
+```
+and follow instructions on https://manual.seafile.com/deploy/upgrade.html !!!
+
 **Note:** The <yourdomain.tld> should either point to a IP or valid domain you want to run Seafile on. If you're running Docker on
 your localhost you simply can specify _127.0.0.1_.
 
