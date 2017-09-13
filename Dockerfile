@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 # Initially was based on work of Alessandro Viganò, Andreas Löffler <andy@x86dev.com>
 MAINTAINER CoeusITE <coeusite@gmail.com>
@@ -35,4 +35,4 @@ VOLUME ["/etc/nginx", "/opt/seafile", "/etc/supervisor/conf.d"]
 # CMD
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
-# docker build -t docker-seafile:jessie .
+# docker build -t docker-seafile:stretch .

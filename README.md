@@ -18,6 +18,7 @@ The image contains/adds the following:
 
 ## Changelog
 
+- 2017/09/13: Switch to debian:stretch.
 - 2017/09/13: Update Seafile Server to version 6.1.12. Update download path.
 - 2017/02/13: Switch to debian:jessie with supervisor. Update Seafile Server to version 6.0.7.
 - 2016/11/22: Update Seafile Server to version 6.0.6.
