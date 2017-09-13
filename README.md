@@ -11,13 +11,14 @@ Idea and initial Dockerfile was based on https://github.com/alvistar/seafile-doc
 
 The image contains/adds the following:
 
-- Latest Seafile (6.0.7)
+- Latest Seafile (6.1.12)
 - Nginx for TLS (HTTPS) support
 - Self-signed certificates, generated automatically on first run
 - Runit for keeping the services up and running
 
 ## Changelog
 
+- 2017/09/13: Update Seafile Server to version 6.1.12. Update download path.
 - 2017/02/13: Switch to debian:jessie with supervisor. Update Seafile Server to version 6.0.7.
 - 2016/11/22: Update Seafile Server to version 6.0.6.
 - 2016/09/22: Added initial support for Seafile 6.0.4 and using the official MariaDB Docker image. Stay tuned for updates.
