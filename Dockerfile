@@ -21,12 +21,12 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 # sqlite3
 
 # ENV
-ENV SEAFILE_VERSION 6.0.7
+ENV SEAFILE_VERSION 6.2.8
 
 # Seafile
 RUN mkdir /opt/seafile/logs -p && \
     cd /opt/seafile/ && \
-    wget "https://download.seafile.com/d/06d4ca0272/files/?p=/seafile-pro-server_${SEAFILE_VERSION}_x86-64.tar.gz&dl=1" -O "seafile-pro-server_${SEAFILE_VERSION}_x86-64.tar.gz" && \
+    wget "https://download.seafile.com/d/6e5297246c/files/?p=/pro/seafile-pro-server_${SEAFILE_VERSION}_x86-64.tar.gz&dl=1" -O "seafile-pro-server_${SEAFILE_VERSION}_x86-64.tar.gz" && \
     tar xzf seafile-pro-server_* && \
     mkdir installed && \
     mv seafile-pro-server_* installed
