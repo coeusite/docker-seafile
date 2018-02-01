@@ -11,14 +11,14 @@ Idea and initial Dockerfile was based on https://github.com/alvistar/seafile-doc
 
 The image contains/adds the following:
 
-- Latest Seafile (6.2.25)
+- Latest Seafile (6.2.5)
 - Nginx for TLS (HTTPS) support
 - Self-signed certificates, generated automatically on first run
 - Runit for keeping the services up and running
 
 ## Changelog
 
-- 2018/02/01: Update Seafile Server to version 6.2.25. 
+- 2018/02/01: Update Seafile Server to version 6.2.5. 
 - 2017/09/13: Switch to debian:stretch.
 - 2017/09/13: Update Seafile Server to version 6.1.12. Update download path.
 - 2017/02/13: Switch to debian:jessie with supervisor. Update Seafile Server to version 6.0.7.
