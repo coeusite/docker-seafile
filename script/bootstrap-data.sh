@@ -8,7 +8,7 @@ if [ -z "$SEAFILE_DOMAIN_NAME" ]; then
     SEAFILE_DOMAIN_NAME=127.0.0.1
 fi
 if [ -z "$SEAFILE_DOMAIN_PORT" ]; then
-    SEAFILE_DOMAIN_PORT=8080
+    SEAFILE_DOMAIN_PORT=80
 fi
 
 # Generate the TLS certificate for our Seafile server instance.
@@ -53,7 +53,7 @@ echo "FILE_SERVER_ROOT = 'https://$SEAFILE_DOMAIN_NAME:$SEAFILE_DOMAIN_PORT/seaf
 cat << EOF > /opt/seafile/conf/seafdav.conf
 [WEBDAV]
 enabled = true
-port = 8088
+port = 8080
 fastcgi = true
 share_name = /seafdav
 EOF

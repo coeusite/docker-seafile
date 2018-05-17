@@ -9,9 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils && \
     apt-get install -y \
         openjdk-8-jre poppler-utils libpython2.7 python-pip mysql-server \
-        python-setuptools python-imaging python-mysqldb python-memcache python-ldap python-urllib3 python-boto python-requests\
-        libreoffice libreoffice-script-provider-python \
-        fonts-vlgothic ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy  && \
+        python-setuptools python-imaging python-mysqldb python-memcache python-ldap python-urllib3 python-boto python-requests && \
     apt-get clean all && \
     sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
 
@@ -42,7 +40,7 @@ ADD script/bootstrap-data.sh /usr/local/sbin/bootstrap
 
 
 # Expose needed ports.
-EXPOSE 8080
+EXPOSE 80
 
 # Volumes
 VOLUME ["/etc/nginx", "/opt/seafile", "/etc/supervisor/conf.d"]
