@@ -6,20 +6,12 @@ MAINTAINER CoeusITE <coeusite@posteo.org>
 # Base system
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get upgrade -y && \
-    apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils && \
+    apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils procps && \
     apt-get install -y \
-        procps \
         openjdk-8-jre poppler-utils libpython2.7 python-pip \
         python-setuptools python-imaging python-mysqldb python-memcache python-ldap python-urllib3 python-boto python-requests && \
     apt-get clean all && \
     sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
-
-# debug
-# docker run -dit --rm --name test debian:stretch
-# docker exec -it test /bin/bash
-
-# Required packages for pro edition
-# sqlite3
 
 # ENV
 ENV SEAFILE_VERSION 6.2.12
@@ -38,6 +30,8 @@ ADD config/seafile-nginx.conf /etc/nginx/sites-available/seafile
 ADD config/seafile-supervisord.conf /etc/supervisor/conf.d/seafile-supervisord.conf
 # bootstrap
 ADD script/bootstrap-data.sh /usr/local/sbin/bootstrap
+# bootstrap-nginx
+ADD script/bootstrap-nginx.sh /usr/local/sbin/bootstrap-nginx
 
 
 # Expose needed ports.
