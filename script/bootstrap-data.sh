@@ -12,14 +12,14 @@ if [ -z "$SEAFILE_DOMAIN_PORT" ]; then
 fi
 
 # Generate the TLS certificate for our Seafile server instance.
-SEAFILE_CERT_PATH=/etc/nginx/certs
-mkdir -p "$SEAFILE_CERT_PATH"
-openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
-    -subj "/C=US/ST=World/L=World/O=seafile/CN=$SEAFILE_DOMAIN_NAME" \
-    -keyout "$SEAFILE_CERT_PATH/seafile.key" \
-    -out "$SEAFILE_CERT_PATH/seafile.crt"
-chmod 600 "$SEAFILE_CERT_PATH/seafile.key"
-chmod 600 "$SEAFILE_CERT_PATH/seafile.crt"
+# SEAFILE_CERT_PATH=/etc/nginx/certs
+# mkdir -p "$SEAFILE_CERT_PATH"
+# openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
+#    -subj "/C=US/ST=World/L=World/O=seafile/CN=$SEAFILE_DOMAIN_NAME" \
+#    -keyout "$SEAFILE_CERT_PATH/seafile.key" \
+#    -out "$SEAFILE_CERT_PATH/seafile.crt"
+#chmod 600 "$SEAFILE_CERT_PATH/seafile.key"
+#chmod 600 "$SEAFILE_CERT_PATH/seafile.crt"
 
 # Enable Seafile in the Nginx configuration. Nginx then will serve Seafile
 # over HTTPS (TLS).

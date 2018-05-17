@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 # Initially was based on work of Alessandro Viganò, Andreas Löffler <andy@x86dev.com> and xama <oliver@xama.us>
 MAINTAINER CoeusITE <coeusite@gmail.com>
@@ -8,20 +8,22 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils && \
     apt-get install -y \
-        openjdk-7-jre poppler-utils libpython2.7 python-pip \
-        python-setuptools python-imaging python-mysqldb \
-        python-memcache python-ldap python-urllib3 \
+        openjdk-8-jre poppler-utils libpython2.7 python-pip mysql-server \
+        python-setuptools python-imaging python-mysqldb python-memcache python-ldap python-urllib3 python-boto python-requests\
         libreoffice libreoffice-script-provider-python \
-        fonts-vlgothic ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy \
-        python-requests python-boto && \
+        fonts-vlgothic ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy  && \
     apt-get clean all && \
     sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
+
+# debug
+# docker run -dit --rm --name test debian:stretch
+# docker exec -it test /bin/bash
 
 # Required packages for pro edition
 # sqlite3
 
 # ENV
-ENV SEAFILE_VERSION 6.2.8
+ENV SEAFILE_VERSION 6.2.12
 
 # Seafile
 RUN mkdir /opt/seafile/logs -p && \
@@ -30,7 +32,7 @@ RUN mkdir /opt/seafile/logs -p && \
     tar xzf seafile-pro-server_* && \
     mkdir installed && \
     mv seafile-pro-server_* installed
-    
+
 # Nginx
 ADD config/seafile-nginx.conf /etc/nginx/sites-available/seafile
 # Supervisor
