@@ -49,5 +49,3 @@ VOLUME ["/etc/nginx", "/opt/seafile", "/etc/supervisor/conf.d"]
 
 # CMD
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
-
-# docker build -t docker-seafile:jessie .
