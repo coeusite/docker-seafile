@@ -6,8 +6,10 @@ MAINTAINER CoeusITE <coeusite@posteo.org>
 # Base system
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get upgrade -y && \
-    apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils procps && \
+    apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils procps nano && \
     apt-get install -y \
+        libreoffice libreoffice-script-provider-python poppler-utils \
+        ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy \
         openjdk-8-jre poppler-utils libpython2.7 python-pip \
         python-setuptools python-imaging python-mysqldb python-memcache python-ldap python-urllib3 python-boto python-requests && \
     apt-get clean all && \
@@ -21,7 +23,7 @@ RUN mkdir /opt/seafile/logs -p && \
     cd /opt/seafile/ && \
     wget "https://download.seafile.com/d/6e5297246c/files/?p=/pro/seafile-pro-server_${SEAFILE_VERSION}_x86-64.tar.gz&dl=1" -O "seafile-pro-server_${SEAFILE_VERSION}_x86-64.tar.gz" && \
     tar xzf seafile-pro-server_* && \
-    mkdir installed && \
+    mkdir installed -p && \
     mv seafile-pro-server_* installed
 
 # Nginx
