@@ -1,7 +1,7 @@
 FROM debian:stretch
 
 # Initially was based on work of Alessandro Viganò, Andreas Löffler <andy@x86dev.com> and xama <oliver@xama.us>
-MAINTAINER CoeusITE <coeusite@gmail.com>
+MAINTAINER CoeusITE <coeusite@posteo.org>
 
 # Base system
 RUN export DEBIAN_FRONTEND=noninteractive && \
