@@ -6,7 +6,7 @@ MAINTAINER CoeusITE <coeusite@gmail.com>
 # Base system
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get upgrade -y && \
-    apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils && \
+    apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils procps && \
     apt-get install -y python2.7 python-setuptools python-imaging python-ldap python-mysqldb python-memcache python-urllib3 && \
     apt-get clean all && \
     sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
@@ -25,6 +25,8 @@ ADD seafile-nginx.conf /etc/nginx/sites-available/seafile
 ADD seafile-supervisord.conf /etc/supervisor/conf.d/seafile-supervisord.conf
 # bootstrap
 ADD bootstrap-data.sh /usr/local/sbin/bootstrap
+# bootstrap-nginx
+ADD bootstrap-nginx.sh /usr/local/sbin/bootstrap-nginx
 
 # Expose needed ports.
 EXPOSE 8080
@@ -33,6 +35,4 @@ EXPOSE 8080
 VOLUME ["/etc/nginx", "/opt/seafile", "/etc/supervisor/conf.d"]
 
 # CMD
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
-
-# docker build -t docker-seafile:stretch .
+CMD ["supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
