@@ -8,7 +8,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y ca-certificates nginx net-tools wget curl supervisor apt-utils && \
     apt-get install -y \
-        openjdk-8-jre poppler-utils libpython2.7 python-pip mysql-server \
+        openjdk-8-jre poppler-utils libpython2.7 python-pip \
         python-setuptools python-imaging python-mysqldb python-memcache python-ldap python-urllib3 python-boto python-requests && \
     apt-get clean all && \
     sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
